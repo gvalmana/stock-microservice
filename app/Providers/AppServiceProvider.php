@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Adapters\implementations\AlegriaMarketConector;
+use App\Adapters\MarketConector;
+use App\Http\UseCases\RecibeOrder;
+use App\Http\UseCases\RecibeOrderImpl;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        App::singleton(MarketConector::class, AlegriaMarketConector::class);
+        App::singleton(RecibeOrder::class, RecibeOrderImpl::class);
     }
 
     /**
