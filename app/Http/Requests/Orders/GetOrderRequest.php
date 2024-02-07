@@ -22,7 +22,8 @@ class GetOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'order_code' => ['required,string'],
+            'products' => ['required,array'],
         ];
     }
 }

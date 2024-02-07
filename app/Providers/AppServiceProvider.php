@@ -6,6 +6,8 @@ use App\Adapters\implementations\AlegriaMarketConector;
 use App\Adapters\MarketConector;
 use App\Http\UseCases\RecibeOrder;
 use App\Http\UseCases\RecibeOrderImpl;
+use App\Models\Ingredient;
+use App\Observers\IngredientObserver;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 }
