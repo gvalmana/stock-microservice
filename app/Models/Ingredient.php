@@ -23,6 +23,8 @@ class Ingredient extends Model
 
     protected $table = 'ingredients';
 
+    public const RELATIONS = ['order'];
+
     protected $fillable = [
         'name',
         'quantity',
@@ -32,6 +34,11 @@ class Ingredient extends Model
     protected $casts = [
         'fulled' => 'boolean'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(OrderRegister::class, 'order_register_id', 'id');
+    }
 
     public static function getNamesConstants() {
         $refl = new ReflectionClass(get_called_class());
