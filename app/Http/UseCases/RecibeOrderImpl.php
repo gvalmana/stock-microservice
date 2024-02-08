@@ -1,13 +1,25 @@
 <?php
 namespace App\Http\UseCases;
 use App\Http\UseCases\RecibeOrder;
+use App\Models\OrderRegister;
+use App\Models\Product;
+use App\Models\Repositories\IOrderRegisterRepository;
+use Exception;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class RecibeOrderImpl implements RecibeOrder
 {
-
-    public function getOrder(FormRequest $request)
+    private IOrderRegisterRepository $repository;
+    public function __construct(IOrderRegisterRepository $repository)
     {
-        $data = $request->all();
+        $this->repository = $repository;
+    }
+
+    public function getOrder(array $data)
+    {
+        return $this->repository->register($data);
     }
 }

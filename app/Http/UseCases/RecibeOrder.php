@@ -5,5 +5,5 @@ use Illuminate\Foundation\Http\FormRequest;
 
 interface RecibeOrder
 {
-    public function getOrder(FormRequest $request);
+    public function getOrder(array $request);
 }

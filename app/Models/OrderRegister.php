@@ -14,13 +14,18 @@ class OrderRegister extends Model
         'code',
     ];
 
-    public const RELATIONS = ['ingredients'];
+    public const RELATIONS = ['ingredients','products'];
 
     protected $appends = ['fulled'];
 
     public function ingredients()
     {
         return $this->hasMany(Ingredient::class, 'order_register_id', 'id');
+    }
+
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, Ingredient::class, 'order_register_id', 'id', 'id', 'product_id');
     }
 
     public function getFulledAttribute()

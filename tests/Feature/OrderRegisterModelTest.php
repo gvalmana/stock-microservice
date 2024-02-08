@@ -21,7 +21,7 @@ class OrderRegisterModelTest extends TestCase
 
     public function test_order_register_model_has_all_consts()
     {
-        $this->assertEquals(OrderRegister::RELATIONS, ['ingredients']);
+        $this->assertEquals(OrderRegister::RELATIONS, ['ingredients','products']);
     }
 
     public function test_order_register_model_has_relations()
@@ -34,6 +34,7 @@ class OrderRegisterModelTest extends TestCase
             'product_id' => $product->id
         ]);
         $this->assertInstanceOf(Collection::class, $order->ingredients);
+        $this->assertInstanceOf(Collection::class,$order->products);
     }
 
     public function test_order_register_attribute_fullfilled()

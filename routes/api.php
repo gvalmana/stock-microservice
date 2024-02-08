@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Orders\GetOrderController;
+use App\Http\Controllers\Orders\ReciveOrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,7 +15,7 @@ use App\Http\Controllers\Orders\GetOrderController;
 */
 
 Route::prefix('orders/')->group(function () {
-    Route::post('get-order', [GetOrderController::class, 'getOrder'])->name('order.get');
+    Route::post('get-order', [ReciveOrderController::class, 'getOrder'])->name('order.get');
 });
 
 Route::get('/healtcheck', function() {
