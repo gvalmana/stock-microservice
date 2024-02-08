@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\OrderRegister;
-use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingredients', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('quantity')->default(0);
-            $table->boolean('fulled')->default(false);
-            $table->foreignIdFor(OrderRegister::class,'order_register_id')->constrained();
-            $table->foreignIdFor(Product::class,'product_id')->constrained();
+            $table->string('name');
+            $table->integer('available_quantity')->default(5);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredients');
+        Schema::dropIfExists('products');
     }
 };

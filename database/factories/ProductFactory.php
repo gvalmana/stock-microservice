@@ -3,12 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\Ingredient;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
-class IngredientFactory extends Factory
+class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +19,7 @@ class IngredientFactory extends Factory
     public function definition(): array
     {
         return [
-            'quantity' => $this->faker->numberBetween(1, 10),
+            'name' => $this->faker->randomElement(Product::getNamesConstants()),
         ];
     }
 }

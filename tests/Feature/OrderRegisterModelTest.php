@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Ingredient;
 use App\Models\OrderRegister;
+use App\Models\Product;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,10 +26,11 @@ class OrderRegisterModelTest extends TestCase
 
     public function test_order_register_model_has_relations()
     {
-        $this->seed();
         $order = OrderRegister::factory()->create();
+        $product = Product::factory()->create();
         Ingredient::factory(4)->create([
-            'order_register_id' => $order->id
+            'order_register_id' => $order->id,
+            'product_id' => $product->id
         ]);
         $this->assertInstanceOf(Collection::class, $order->ingredients);
     }
@@ -36,9 +38,11 @@ class OrderRegisterModelTest extends TestCase
     public function test_order_register_attribute_fullfilled()
     {
         $order = OrderRegister::factory()->create();
+        $product = Product::factory()->create();
         Ingredient::factory(4)->create([
             'order_register_id' => $order->id,
-            'fulled' => true
+            'fulled' => true,
+            'product_id' => $product->id
         ]);
 
         $this->assertTrue($order->fulled);
@@ -47,9 +51,11 @@ class OrderRegisterModelTest extends TestCase
     public function test_order_register_attribute_not_fullfilled()
     {
         $order = OrderRegister::factory()->create();
+        $product = Product::factory()->create();
         Ingredient::factory(4)->create([
             'order_register_id' => $order->id,
-            'fulled' => false
+            'fulled' => false,
+            'product_id' => $product->id
         ]);
 
         $this->assertFalse($order->fulled);

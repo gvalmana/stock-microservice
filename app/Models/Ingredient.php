@@ -11,24 +11,16 @@ use ReflectionClass;
 class Ingredient extends Model
 {
     use HasFactory, SoftDeletes;
-    public const INGREDIENT_TOMATO = 'Tomato';
-    public const INGREDIENT_LEMON = 'Lemon';
-    public const INGREDIENT_POTATO = 'Potato';
-    public const INGREDIENT_RICE = 'Rice';
-    public const INGREDIENT_KETCHUN = 'Ketchup';
-    public const INGREDIENT_ONION = 'Onion';
-    public const INGREDIENT_CHEESE = 'Cheese';
-    public const INGREDIENT_MEAT = 'Meat';
-    public const INGREDIENT_CHICKEN = 'Chicken';
 
     protected $table = 'ingredients';
 
-    public const RELATIONS = ['order'];
+    public const RELATIONS = ['order','product'];
 
     protected $fillable = [
-        'name',
         'quantity',
         'fulled',
+        'order_register_id',
+        'product_id'
     ];
 
     protected $casts = [
@@ -40,17 +32,8 @@ class Ingredient extends Model
         return $this->belongsTo(OrderRegister::class, 'order_register_id', 'id');
     }
 
-    public static function getNamesConstants() {
-        $refl = new ReflectionClass(get_called_class());
-        $constants = $refl->getConstants();
-        $filteredConstants = [];
-
-        foreach ($constants as $constant => $value) {
-            if (strpos($constant, 'INGREDIENT_') === 0) {
-                $filteredConstants[] = $value;
-            }
-        }
-
-        return $filteredConstants;
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }
