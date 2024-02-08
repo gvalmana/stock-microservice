@@ -26,8 +26,9 @@ class OrderRegisterModelTest extends TestCase
 
     public function test_order_register_model_has_relations()
     {
+        $this->seed();
         $order = OrderRegister::factory()->create();
-        $product = Product::factory()->create();
+        $product = Product::first();
         Ingredient::factory(4)->create([
             'order_register_id' => $order->id,
             'product_id' => $product->id
@@ -37,8 +38,9 @@ class OrderRegisterModelTest extends TestCase
 
     public function test_order_register_attribute_fullfilled()
     {
+        $this->seed();
         $order = OrderRegister::factory()->create();
-        $product = Product::factory()->create();
+        $product = Product::first();
         Ingredient::factory(4)->create([
             'order_register_id' => $order->id,
             'fulled' => true,
@@ -50,8 +52,9 @@ class OrderRegisterModelTest extends TestCase
 
     public function test_order_register_attribute_not_fullfilled()
     {
+        $this->seed();
         $order = OrderRegister::factory()->create();
-        $product = Product::factory()->create();
+        $product = Product::first();
         Ingredient::factory(4)->create([
             'order_register_id' => $order->id,
             'fulled' => false,
