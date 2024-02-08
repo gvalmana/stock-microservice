@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class CheckProductsAvailableJob implements ShouldQueue
 {
@@ -27,6 +28,18 @@ class CheckProductsAvailableJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        if (!$this->orderRegister->filled) {
+            $ingredients = $this->orderRegister->ingredients;
+            foreach ($ingredients as $item) {
+                if ($item->product->available_quantity >= $item->quantity) {
+                    $item->fulled = true;
+                    $item->product->available_quantity -= $item->quantity;
+                    $item->product->save();
+                    $item->save();
+                } else {
+                    //TODO Send solicitud de compra
+                }
+            }
+        }
     }
 }
