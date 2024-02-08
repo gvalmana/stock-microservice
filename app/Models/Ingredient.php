@@ -25,7 +25,12 @@ class Ingredient extends Model
 
     protected $fillable = [
         'name',
-        'quantity'
+        'quantity',
+        'fulled',
+    ];
+
+    protected $casts = [
+        'fulled' => 'boolean'
     ];
 
     public static function getNamesConstants() {

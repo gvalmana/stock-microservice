@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('order_registers', function (Blueprint $table) {
             $table->id();
             $table->timestamp('date')->useCurrent();
-            $table->boolean('is_fullfilled')->default(false);
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

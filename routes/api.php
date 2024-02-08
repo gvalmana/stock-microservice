@@ -17,3 +17,10 @@ use App\Http\Controllers\Orders\GetOrderController;
 Route::prefix('orders/')->group(function () {
     Route::post('get-order', [GetOrderController::class, 'getOrder'])->name('order.get');
 });
+
+Route::get('/healtcheck', function() {
+    return response()->json([
+        'status' => true,
+        'message' => 'OK, I am healthy!'
+    ]);
+})->name('healtcheck');
