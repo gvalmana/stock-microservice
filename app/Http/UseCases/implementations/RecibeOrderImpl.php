@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\UseCases;
+namespace App\Http\UseCases\implementations;
+
 use App\Http\UseCases\RecibeOrder;
 use App\Models\OrderRegister;
 use App\Models\Product;

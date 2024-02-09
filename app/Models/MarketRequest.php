@@ -15,7 +15,7 @@ class MarketRequest extends Model
 
     protected $fillable = [
         'product_id',
-        'quantity',
+        'quantity_sold',
         'date'
     ];
 

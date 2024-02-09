@@ -3,9 +3,12 @@
 namespace App\Providers;
 
 use App\Adapters\implementations\AlegriaMarketConector;
+use App\Adapters\implementations\AlegriaMarketConectorTest;
 use App\Adapters\MarketConector;
+use App\Http\UseCases\IBuyProduct;
+use App\Http\UseCases\implementations\BuyProductImpl;
+use App\Http\UseCases\implementations\RecibeOrderImpl;
 use App\Http\UseCases\RecibeOrder;
-use App\Http\UseCases\RecibeOrderImpl;
 use App\Models\Ingredient;
 use App\Models\Repositories\IOrderRegisterRepository;
 use App\Models\Repositories\OrderRegisterRepository;
@@ -22,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
     {
         App::singleton(MarketConector::class, AlegriaMarketConector::class);
         App::singleton(RecibeOrder::class, RecibeOrderImpl::class);
+        App::bind(IBuyProduct::class, BuyProductImpl::class);
         App::bind(IOrderRegisterRepository::class, OrderRegisterRepository::class);
+
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\UseCases\IBuyProduct;
 use App\Models\OrderRegister;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,7 +27,7 @@ class CheckProductsAvailableJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(IBuyProduct $service): void
     {
         if (!$this->orderRegister->filled) {
             $ingredients = $this->orderRegister->ingredients;
@@ -37,7 +38,7 @@ class CheckProductsAvailableJob implements ShouldQueue
                     $item->product->save();
                     $item->save();
                 } else {
-                    //TODO Send solicitud de compra
+                    $service->buyProduct($item);
                 }
             }
         }

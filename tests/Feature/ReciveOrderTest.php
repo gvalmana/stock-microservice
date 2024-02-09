@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Adapters\implementations\AlegriaMarketConectorTest;
+use App\Adapters\MarketConector;
 use App\Models\OrderRegister;
 use App\Models\Product;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 
@@ -22,7 +25,7 @@ class ReciveOrderTest extends TestCase
     }
     public function test_order_of_products_can_be_recived()
     {
-
+        $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
         $data = [
             'products' => [
                 [
