@@ -8,6 +8,7 @@ use App\Traits\HttpResponsable;
 use App\Traits\PaginationTrait;
 use App\Traits\ParamsProcessTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MarkePlaceController extends Controller
 {

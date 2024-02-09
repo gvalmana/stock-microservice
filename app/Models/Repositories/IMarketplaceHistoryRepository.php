@@ -3,5 +3,5 @@ namespace App\Models\Repositories;
 
 interface IMarketplaceHistoryRepository
 {
-    public function listAll($params);
+    public function listAll(array $params);
 }

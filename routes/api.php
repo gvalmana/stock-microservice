@@ -20,7 +20,7 @@ Route::prefix('orders/')->group(function () {
 });
 
 Route::prefix('marketplace/')->group(function () {
-    Route::post('history', [MarkePlaceController::class, 'index'])->name('history.marketplace.index');
+    Route::get('history', [MarkePlaceController::class, 'index'])->name('history.marketplace.index');
 });
 
 Route::get('/healtcheck', function() {
