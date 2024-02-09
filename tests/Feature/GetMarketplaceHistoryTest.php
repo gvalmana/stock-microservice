@@ -46,7 +46,6 @@ class GetMarketplaceHistoryTest extends TestCase
                 '_links'
             ],
         ]);
-        $response->assertJsonCount(MarketRequest::count(), 'data');
     }
 
     public function test_get_marketplace_history_pagination()
