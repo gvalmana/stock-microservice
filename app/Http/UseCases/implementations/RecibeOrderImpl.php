@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\UseCases\implementations;
 
-use App\Http\UseCases\RecibeOrder;
+use App\Http\UseCases\IRecibeOrder;
 use App\Models\OrderRegister;
 use App\Models\Product;
 use App\Models\Repositories\IOrderRegisterRepository;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class RecibeOrderImpl implements RecibeOrder
+class RecibeOrderImpl implements IRecibeOrder
 {
     private IOrderRegisterRepository $repository;
     public function __construct(IOrderRegisterRepository $repository)

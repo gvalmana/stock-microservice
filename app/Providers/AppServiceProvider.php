@@ -6,11 +6,15 @@ use App\Adapters\implementations\AlegriaMarketConector;
 use App\Adapters\implementations\AlegriaMarketConectorTest;
 use App\Adapters\MarketConector;
 use App\Http\UseCases\IBuyProduct;
+use App\Http\UseCases\IMarketplaceHistory;
 use App\Http\UseCases\implementations\BuyProductImpl;
+use App\Http\UseCases\implementations\MarketplaceHistoryImpl;
 use App\Http\UseCases\implementations\RecibeOrderImpl;
-use App\Http\UseCases\RecibeOrder;
+use App\Http\UseCases\IRecibeOrder;
 use App\Models\Ingredient;
+use App\Models\Repositories\IMarketplaceHistoryRepository;
 use App\Models\Repositories\IOrderRegisterRepository;
+use App\Models\Repositories\MarketplaceHistoryRepository;
 use App\Models\Repositories\OrderRegisterRepository;
 use App\Observers\IngredientObserver;
 use Illuminate\Support\Facades\App;
@@ -24,10 +28,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         App::singleton(MarketConector::class, AlegriaMarketConector::class);
-        App::singleton(RecibeOrder::class, RecibeOrderImpl::class);
+        App::singleton(IRecibeOrder::class, RecibeOrderImpl::class);
         App::bind(IBuyProduct::class, BuyProductImpl::class);
         App::bind(IOrderRegisterRepository::class, OrderRegisterRepository::class);
-
+        App::bind(IMarketplaceHistoryRepository::class, MarketplaceHistoryRepository::class);
+        App::bind(IMarketplaceHistory::class, MarketplaceHistoryImpl::class);
     }
 
     /**

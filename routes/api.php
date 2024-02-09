@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MarkePlaceController;
 use App\Http\Controllers\ReciveOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('orders/')->group(function () {
     Route::post('get-order', [ReciveOrderController::class, 'getOrder'])->name('order.get');
+});
+
+Route::prefix('marketplace/')->group(function () {
+    Route::post('history', [MarkePlaceController::class, 'index'])->name('history.marketplace.index');
 });
 
 Route::get('/healtcheck', function() {
