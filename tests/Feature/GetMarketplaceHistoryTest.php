@@ -28,7 +28,9 @@ class GetMarketplaceHistoryTest extends TestCase
             'data' => [
                 '*' => [
                     'quantity_sold',
-                    'product',
+                    'product'=>[
+                        'name'
+                    ],
                     'date',
                 ],
             ],
@@ -59,28 +61,6 @@ class GetMarketplaceHistoryTest extends TestCase
         $this->seed(MarketRequestTestSeeder::class);
         $response = $this->getJson(route('history.marketplace.index').'?'.http_build_query($params));
         $response->assertOk();
-        $response->assertJsonStructure([
-            'success',
-            'type',
-            'data' => [
-                '*' => [
-                    'quantity_sold',
-                    'product',
-                    'date',
-                ],
-            ],
-            'links'=>[
-                'total',
-                'count',
-                'pagination',
-                'page',
-                'lastPage',
-                'hasMorePages',
-                'nextPageUrl',
-                'previousPageUrl',
-                '_links'
-            ],
-        ]);
         $response->assertJsonCount(1, 'data');
         $response->assertJsonFragment(['page' => 2]);
         $response->assertJsonFragment(['total' => 2]);
