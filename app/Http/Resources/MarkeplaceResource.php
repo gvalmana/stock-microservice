@@ -14,6 +14,10 @@ class MarkeplaceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'quantity_sold' => $this->quantity_sold,
+            'product' => $this->product,
+            'date' => $this->date
+        ];
     }
 }
