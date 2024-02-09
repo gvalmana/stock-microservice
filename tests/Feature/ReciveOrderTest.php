@@ -58,6 +58,7 @@ class ReciveOrderTest extends TestCase
 
     public function test_order_of_products_is_paused()
     {
+        $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
         $data = [
             'products' => [
                 [
