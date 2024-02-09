@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('orders/')->group(function () {
-    Route::post('get-order', ReciveOrderController::class)->name('order.get');
+    Route::post('get-order', ReciveOrderController::class)->name('order.get')->middleware('check.authorization.header');
 });
 
 Route::prefix('marketplace/')->group(function () {

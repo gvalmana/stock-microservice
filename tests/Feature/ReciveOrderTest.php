@@ -39,7 +39,7 @@ class ReciveOrderTest extends TestCase
             ],
             'order_code' => Str::uuid()->toString(),
         ];
-        $response = $this->postJson(route('order.get'), $data);
+        $response = $this->postJson(route('order.get'), $data,['Authorization' => 'Bearer ' . config('globals.security_key')]);
         $response->assertSuccessful();
         $order = OrderRegister::first();
         $this->assertDatabaseCount('order_registers', 1);
@@ -72,7 +72,7 @@ class ReciveOrderTest extends TestCase
             ],
             'order_code' => Str::uuid()->toString(),
         ];
-        $response = $this->postJson(route('order.get'), $data);
+        $response = $this->postJson(route('order.get'), $data,['Authorization' => 'Bearer ' . config('globals.security_key')]);
         $response->assertSuccessful();
         $order = OrderRegister::first();
         $this->assertDatabaseCount('order_registers', 1);
