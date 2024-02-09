@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\OrderRegisterFulled;
+use App\Listeners\OrderRegisterFulledListener;
 use App\Models\Ingredient;
 use App\Observers\IngredientObserver;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        OrderRegisterFulled::class => [
+            OrderRegisterFulledListener::class
         ],
     ];
 

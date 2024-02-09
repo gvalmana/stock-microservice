@@ -10,7 +10,9 @@ use App\Http\UseCases\IMarketplaceHistory;
 use App\Http\UseCases\implementations\BuyProductImpl;
 use App\Http\UseCases\implementations\MarketplaceHistoryImpl;
 use App\Http\UseCases\implementations\RecibeOrderImpl;
+use App\Http\UseCases\implementations\SendOrderRegisterNotificationTest;
 use App\Http\UseCases\IRecibeOrder;
+use App\Http\UseCases\ISendOrderRegisterNotification;
 use App\Models\Ingredient;
 use App\Models\Repositories\IMarketplaceHistoryRepository;
 use App\Models\Repositories\implementations\MarketplaceHistoryRepository;
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         App::bind(IOrderRegisterRepository::class, OrderRegisterRepository::class);
         App::bind(IMarketplaceHistoryRepository::class, MarketplaceHistoryRepository::class);
         App::bind(IMarketplaceHistory::class, MarketplaceHistoryImpl::class);
+        App::bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotificationTest::class);
     }
 
     /**
