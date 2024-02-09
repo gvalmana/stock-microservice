@@ -3,5 +3,5 @@ namespace App\Http\UseCases;
 
 interface IMarketplaceHistory
 {
-    public function getMarketplaceHistory($params);
+    public function getMarketplaceHistory(array $params);
 }

@@ -12,7 +12,12 @@ class MarketplaceHistoryImpl implements IMarketplaceHistory
         $this->repository = $repository;
     }
 
-    public function getMarketplaceHistory($params)
+    public function __invoke(array $params)
+    {
+        return $this->getMarketplaceHistory($params);
+    }
+
+    public function getMarketplaceHistory(array $params)
     {
         return $this->repository->listAll($params);
     }

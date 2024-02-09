@@ -15,6 +15,12 @@ final class BuyProductImpl implements IBuyProduct
     {
         $this->marketConector = $marketConector;
     }
+
+    public function __invoke($data)
+    {
+        return $this->buyProduct($data);
+    }
+
     public function buyProduct($data)
     {
         $dataRequest = [

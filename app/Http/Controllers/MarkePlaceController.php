@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Log;
 class MarkePlaceController extends Controller
 {
     use HttpResponsable, PaginationTrait, ParamsProcessTrait;
-    public function index(Request $request, IMarketplaceHistory $service)
+
+    public function __invoke(Request $request, IMarketplaceHistory $listMarketplaceHistory)
+    {
+        return $this->index($request, $listMarketplaceHistory);
+    }
+    public function index(Request $request, IMarketplaceHistory $listMarketplaceHistory)
     {
         $params = $this->processParams($request);
-        $models = $service->getMarketplaceHistory($params);
+        $models = $listMarketplaceHistory($params);
         $links = $this->makeMetaData($models);
         return $this->makeResponseList(MarkeplaceResource::collection($models), $links);
     }

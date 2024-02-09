@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('orders/')->group(function () {
-    Route::post('get-order', [ReciveOrderController::class, 'getOrder'])->name('order.get');
+    Route::post('get-order', ReciveOrderController::class)->name('order.get');
 });
 
 Route::prefix('marketplace/')->group(function () {
-    Route::get('history', [MarkePlaceController::class, 'index'])->name('history.marketplace.index');
+    Route::get('history', MarkePlaceController::class)->name('history.marketplace.index');
 });
 
 Route::get('/healtcheck', function() {

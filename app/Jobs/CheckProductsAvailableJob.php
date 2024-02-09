@@ -27,7 +27,7 @@ class CheckProductsAvailableJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(IBuyProduct $service): void
+    public function handle(IBuyProduct $buyProduct): void
     {
         if (!$this->orderRegister->filled) {
             $ingredients = $this->orderRegister->ingredients;
@@ -38,7 +38,7 @@ class CheckProductsAvailableJob implements ShouldQueue
                     $item->product->save();
                     $item->save();
                 } else {
-                    $service->buyProduct($item);
+                    $buyProduct($item);
                 }
             }
         }

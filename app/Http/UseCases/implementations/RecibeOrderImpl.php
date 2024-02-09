@@ -19,6 +19,11 @@ class RecibeOrderImpl implements IRecibeOrder
         $this->repository = $repository;
     }
 
+    public function __invoke(array $data)
+    {
+        return $this->getOrder($data);
+    }
+
     public function getOrder(array $data)
     {
         return $this->repository->register($data);

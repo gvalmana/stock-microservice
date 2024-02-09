@@ -13,16 +13,14 @@ use Illuminate\Support\Facades\Log;
 class ReciveOrderController extends Controller
 {
 
-    public function getOrder(GetOrderRequest $request, IRecibeOrder $service)
+    public function __invoke(GetOrderRequest $request, IRecibeOrder $recibeOrders)
     {
-        try {
-            $data = $service->getOrder($request->input());
-            CheckProductsAvailableJob::dispatch($data);
-            return response()->json(["message"=>"success"],200);
-        } catch (Exception $ex) {
-            Log::debug("error message: ".$ex->getMessage());
-            return response()->json(["message"=>$ex->getMessage()],500);
-        }
-
+        return $this->getOrders($request, $recibeOrders);
+    }
+    public function getOrders(GetOrderRequest $request, IRecibeOrder $recibeOrders)
+    {
+        $data = $recibeOrders($request->input());
+        CheckProductsAvailableJob::dispatch($data);
+        return response()->json(["message"=>"success"],200);
     }
 }
