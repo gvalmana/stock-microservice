@@ -29,7 +29,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        App::singleton(MarketConector::class, AlegriaMarketConector::class);
+        App::singleton(MarketConector::class,function(){
+            if (config("globals.marketplace.available")==0) {
+                return new AlegriaMarketConectorTest();
+            }
+            return new AlegriaMarketConector();
+        });
         App::singleton(IRecibeOrder::class, RecibeOrderImpl::class);
         App::bind(IBuyProduct::class, BuyProductImpl::class);
         App::bind(IOrderRegisterRepository::class, OrderRegisterRepository::class);

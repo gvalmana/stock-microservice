@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('order_registers', function (Blueprint $table) {
             $table->id();
             $table->timestamp('date')->useCurrent();
+            $table->timestamp('delivery_at')->nullable();
             $table->string('code');
             $table->timestamps();
             $table->softDeletes();
