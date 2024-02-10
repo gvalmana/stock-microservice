@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 class KafkaPublisherTest extends TestCase
 {
     use RefreshDatabase;
-    public function test_creating_order_with_kafka_message()
+    public function creating_order_with_kafka_message()
     {
         $this->seed();
         Kafka::fake();
@@ -28,7 +28,7 @@ class KafkaPublisherTest extends TestCase
             $boddy_keys = array_key_exists('order_code', $message->getBody()['data']);
             $event_type = array_key_exists('event', $message->getBody());
             $order_id_correct = $message->getBody()['data']['order_code'] === $order->code;
-            Log::info($message->getBody());
+            Log::info(json_encode($message->getBody()));
             return $key_correct && $boddy_keys && $order_id_correct && $event_type;
         });
     }
