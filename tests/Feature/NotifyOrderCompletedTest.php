@@ -55,4 +55,22 @@ class NotifyOrderCompletedTest extends TestCase
         Event::assertDispatched(OrderRegisterFulled::class);
         Event::assertListening(OrderRegisterFulled::class, OrderRegisterFulledListener::class);
     }
+
+    public function test_notificator_http_works()
+    {
+        $url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
+        Http::fake(
+            [
+                 $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
+            ]
+        );
+        $product = Product::factory()->create();
+        $order = OrderRegister::factory()->create();
+        Ingredient::factory()->create(['product_id' => $product->id, 'fulled' => true, 'order_register_id' => $order->id]);
+        $notificator = $this->app->make(SendOrderRegisterNotificationHttp::class);
+        $this->assertDatabaseHas('order_registers', ['delivered' => false,'code' => $order->code]);
+        $notificator->notify($order->toArray());
+        $this->assertTrue($order->fulled);
+        $this->assertDatabaseHas('order_registers', ['delivered' => true,'code' => $order->code]);
+    }
 }

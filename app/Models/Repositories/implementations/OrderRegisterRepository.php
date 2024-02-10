@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Repositories\IOrderRegisterRepository;
 use App\Models\Repositories\ListRepository;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -21,7 +22,7 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
     {
         return DB::transaction(function () use ($data) {
             $ingredients = $data['products'];
-            $order = OrderRegister::create([
+            $order = $this->modelClass::create([
                 'code' => $data['order_code'],
             ]);
             foreach ($ingredients as $ingredient) {
@@ -35,5 +36,13 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
             }
             return $order;
         });
+    }
+
+    public function setDeliveredStatus($order_code)
+    {
+        $order = $this->modelClass::where('code', $order_code)->first();
+        $order->delivered = true;
+        $order->delivery_at = Carbon::now();
+        $order->save();
     }
 }
