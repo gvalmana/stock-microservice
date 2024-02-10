@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamp('date')->nullable();
             $table->unsignedInteger('retries')->default(0);
             $table->unsignedInteger('quantity_sold')->default(0);
-            $table->foreignIdFor(Product::class, 'product_id')->constrained();
+            $table->foreignIdFor(Product::class, 'product_id')->constrained('products');
             $table->timestamps();
             $table->softDeletes();
         });

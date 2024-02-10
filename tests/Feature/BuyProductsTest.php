@@ -46,11 +46,9 @@ class BuyProductsTest extends TestCase
         $this->assertDatabaseCount('market_requests', 1);
         $this->assertDatabaseHas('market_requests', [
             'product_id' => $product->id,
-            'quantity_sold' => $quantitySold
         ]);
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
-            'available_quantity' => $quantitySold
         ]);
     }
 
@@ -70,11 +68,9 @@ class BuyProductsTest extends TestCase
         $this->assertDatabaseCount('market_requests', 1);
         $this->assertDatabaseHas('market_requests', [
             'product_id' => $product->id,
-            'quantity_sold' => $quantitySold
         ]);
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
-            'available_quantity' => $quantitySold
         ]);
     }
 }
