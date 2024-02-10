@@ -10,6 +10,70 @@
         }
     ],
     "paths": {
+        "/api/marketplace/history": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Historial de compras",
+                "operationId": "43c04a9d153a6b6279684b0063268151",
+                "responses": {
+                    "200": {
+                        "description": "Listado de las compras solicitadas al marketplace",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "quantity_sold": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "date": {
+                                                        "type": "string",
+                                                        "example": "2022-06-11T20:30:00.000000Z"
+                                                    },
+                                                    "product": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Tomato"
+                                                            },
+                                                            "available_quantity": {
+                                                                "type": "number",
+                                                                "example": 5
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/orders/get-order": {
             "post": {
                 "tags": [

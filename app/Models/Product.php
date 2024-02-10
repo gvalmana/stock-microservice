@@ -24,6 +24,11 @@ class Product extends Model
         'name',
         'available_quantity',
     ];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at',
+    ];
     public function ingredients()
     {
         return $this->hasMany(Ingredient::class, 'product_id', 'id');
