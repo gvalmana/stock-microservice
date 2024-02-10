@@ -14,7 +14,7 @@ class OrderRegister extends Model
         'date',
         'code',
         'delivered',
-        'delivery_date',
+        'delivery_at',
     ];
 
     protected $hidden = [
@@ -29,7 +29,7 @@ class OrderRegister extends Model
         'date' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'delivery_date' => 'datetime'
+        'delivery_at' => 'datetime'
     ];
 
     public const RELATIONS = ['ingredients','products'];
