@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('quantity')->default(0);
             $table->boolean('fulled')->default(false);
-            $table->foreignIdFor(OrderRegister::class,'order_register_id')->constrained();
-            $table->foreignIdFor(Product::class,'product_id')->constrained();
+            $table->foreignIdFor(OrderRegister::class,'order_register_id')->constrained('order_registers');
+            $table->foreignIdFor(Product::class,'product_id')->constrained('products');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -22,7 +22,6 @@ class OrderRegisterFulledListener
      */
     public function handle(OrderRegisterFulled $event): void
     {
-        Log::debug('Order Register Fulled: '.$event->order->code . ' - '.get_called_class());
         $this->notification->notify($event->order);
     }
 }

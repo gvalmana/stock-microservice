@@ -17,7 +17,7 @@ use App\Models\Ingredient;
 use App\Models\Repositories\IMarketplaceHistoryRepository;
 use App\Models\Repositories\implementations\MarketplaceHistoryRepository;
 use App\Models\Repositories\IOrderRegisterRepository;
-use App\Models\Repositories\OrderRegisterRepository;
+use App\Models\Repositories\implementations\OrderRegisterRepository;
 use App\Observers\IngredientObserver;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;

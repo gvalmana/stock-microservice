@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Models\Repositories;
+namespace App\Models\Repositories\implementations;
 
+use App\Models\Ingredient;
 use App\Models\OrderRegister;
 use App\Models\Product;
+use App\Models\Repositories\IOrderRegisterRepository;
+use App\Models\Repositories\ListRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,19 +23,15 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
             $ingredients = $data['products'];
             $order = OrderRegister::create([
                 'code' => $data['order_code'],
-                'fulled' => false
             ]);
-
-            try {
-                foreach ($ingredients as $ingredient) {
-                    $product = Product::where('name', $ingredient['name'])->firstOrFail();
-                    $order->ingredients()->create([
-                        'product_id' => $product->id,
-                        'quantity' => $ingredient['quantity'],
-                    ]);
-                }
-            } catch (Exception $ex) {
-                Log::error($ex->getMessage());
+            foreach ($ingredients as $ingredient) {
+                $product = Product::where('name', $ingredient['name'])->first();
+                Log::debug('Producto: ' . $product->name);
+                $ingredient = Ingredient::create([
+                    'product_id' => $product->id,
+                    'quantity' => $ingredient['quantity'],
+                    'order_register_id' => $order->id
+                ]);
             }
             return $order;
         });
