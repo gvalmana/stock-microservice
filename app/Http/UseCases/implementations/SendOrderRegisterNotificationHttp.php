@@ -7,7 +7,7 @@ use App\Models\OrderRegister;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class SendOrderRegisterNotification implements ISendOrderRegisterNotification
+class SendOrderRegisterNotificationHttp implements ISendOrderRegisterNotification
 {
     private DeliveryConector $deliveryConector;
     public function __construct(DeliveryConector $deliveryConector)
@@ -21,15 +21,7 @@ class SendOrderRegisterNotification implements ISendOrderRegisterNotification
     public function notify($data)
     {
 
-        // 'event'=> ['required', 'string',Rule::in(['update_cooking_status','failed_getting_stock'])],
-        // 'data'=>  ['required', 'array'],
-        // 'data.order_code'=> ['required', 'string'],
-        $order_code = $data['code'];
-        $payload = [
-            'event' => 'update_cooking_status',
-            'data' => compact('order_code'),
-        ];
-        $response = $this->deliveryConector->notifyUpdate($payload);
+        $response = $this->deliveryConector->notifyUpdate($data);
         if ($response->success) {
             $order = OrderRegister::where('code', $data['code'])->first();
             $order->delivered = true;

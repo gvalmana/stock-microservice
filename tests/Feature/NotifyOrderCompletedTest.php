@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Events\OrderRegisterFulled;
 use App\Http\UseCases\implementations\SendOrderRegisterNotification;
+use App\Http\UseCases\implementations\SendOrderRegisterNotificationHttp;
 use App\Http\UseCases\implementations\SendOrderRegisterNotificationTest;
 use App\Http\UseCases\ISendOrderRegisterNotification;
 use App\Listeners\OrderRegisterFulledListener;
@@ -38,7 +39,7 @@ class NotifyOrderCompletedTest extends TestCase
 
     public function test_event_notification_http_sent()
     {
-        $this->app->bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotification::class);
+        $this->app->bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotificationHttp::class);
         $url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
         Http::fake(
             [
