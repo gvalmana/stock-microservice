@@ -13,6 +13,7 @@ use App\Http\UseCases\implementations\BuyProductImpl;
 use App\Http\UseCases\implementations\MarketplaceHistoryImpl;
 use App\Http\UseCases\implementations\RecibeOrderImpl;
 use App\Http\UseCases\implementations\SendOrderRegisterNotificationHttp;
+use App\Http\UseCases\implementations\SendOrderRegisterNotificationKafkaProducer;
 use App\Http\UseCases\implementations\SendOrderRegisterNotificationTest;
 use App\Http\UseCases\IRecibeOrder;
 use App\Http\UseCases\ISendOrderRegisterNotification;
@@ -37,6 +38,15 @@ class AppServiceProvider extends ServiceProvider
                 return new AlegriaMarketConectorTest();
             }
             return new AlegriaMarketConector();
+        });
+        App::bind(ISendOrderRegisterNotification::class, function(){
+            if (config("globals.comunication_protocol")=="kafka") {
+                return new SendOrderRegisterNotificationKafkaProducer();
+            } elseif (config("globals.comunication_protocol")=="http") {
+                return new SendOrderRegisterNotificationHttp(app(DeliveryConector::class), app(IOrderRegisterRepository::class));
+            } else {
+                return new SendOrderRegisterNotificationTest();
+            }
         });
         App::singleton(IRecibeOrder::class, RecibeOrderImpl::class);
         App::bind(IBuyProduct::class, BuyProductImpl::class);

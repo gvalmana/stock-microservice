@@ -21,9 +21,10 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
     public function register(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $ingredients = $data['products'];
+            $ingredients = $data['data']['products'];
+            $code = $data['data']['order_code'];
             $order = $this->modelClass::create([
-                'code' => $data['order_code'],
+                'code' => $code,
             ]);
             foreach ($ingredients as $ingredient) {
                 $product = Product::where('name', $ingredient['name'])->first();
