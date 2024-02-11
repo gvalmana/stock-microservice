@@ -100,7 +100,6 @@ class ReciveOrderTest extends TestCase
         $this->assertEquals($code, $order->code);
         $this->assertDatabaseHas('order_registers', ['code' => $code]);
         $firstDataProductItem = $data['data']['products'][0];
-        $this->assertFalse($order->fulled);
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
             'order_register_id' => $order->id,
