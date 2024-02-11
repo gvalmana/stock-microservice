@@ -33,17 +33,19 @@ class ReciveOrderTest extends TestCase
         );
         $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
         $data = [
-            'products' => [
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(1, 5)
+            'data' => [
+                'products' => [
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ],
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ]
                 ],
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(1, 5)
-                ]
-            ],
-            'order_code' => Str::uuid()->toString(),
+                'order_code' => Str::uuid()->toString(),
+            ]
         ];
         $response = $this->postJson(route('order.get'), $data,['Authorization' => 'Bearer ' . config('globals.security_key')]);
         $response->assertSuccessful();
@@ -51,7 +53,9 @@ class ReciveOrderTest extends TestCase
         $this->assertDatabaseCount('order_registers', 1);
         $this->assertDatabaseCount('ingredients', $order->ingredients->count());
         $this->assertEquals($order->products->count(), $order->ingredients->count());
-        $this->assertDatabaseHas('order_registers', ['code' => $data['order_code']]);
+        $code = $data['data']['order_code'];
+        $this->assertEquals($code, $order->code);
+        $this->assertDatabaseHas('order_registers', ['code' => $code]);
         $firstDataProductItem = $data['products'][0];
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
@@ -72,17 +76,19 @@ class ReciveOrderTest extends TestCase
     {
         $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
         $data = [
-            'products' => [
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(6, 10)
+            'data' => [
+                'products' => [
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ],
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ]
                 ],
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(6, 10)
-                ]
-            ],
-            'order_code' => Str::uuid()->toString(),
+                'order_code' => Str::uuid()->toString(),
+            ]
         ];
         $response = $this->postJson(route('order.get'), $data,['Authorization' => 'Bearer ' . config('globals.security_key')]);
         $response->assertSuccessful();
@@ -90,7 +96,9 @@ class ReciveOrderTest extends TestCase
         $this->assertDatabaseCount('order_registers', 1);
         $this->assertDatabaseCount('ingredients', $order->ingredients->count());
         $this->assertEquals($order->products->count(), $order->ingredients->count());
-        $this->assertDatabaseHas('order_registers', ['code' => $data['order_code']]);
+        $code = $data['data']['order_code'];
+        $this->assertEquals($code, $order->code);
+        $this->assertDatabaseHas('order_registers', ['code' => $code]);
         $firstDataProductItem = $data['products'][0];
         $this->assertFalse($order->fulled);
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();

@@ -1,7 +1,7 @@
 <?php
 return [
     'delivery_microservice' =>[
-        'url' => env('STOCK_INGREDIENTS_URL', 'http://localhost:8001/api'),
+        'url' => env('STOCK_INGREDIENTS_URL', 'http://localhost:8000/api'),
         'webhook_order_path' => env('STOCK_INGREDIENTS_WEBHOOK_ORDER_PATH', '/webhook/orders'),
     ],
     'comomunication_protocol' => env('APP_COMUNICATION_PROTOCOL', 'http'),
