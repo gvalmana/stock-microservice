@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\OrderRegisterFulled;
 use App\Http\UseCases\IBuyProduct;
 use App\Http\UseCases\ISendOrderRegisterNotification;
 use App\Models\Repositories\IOrderRegisterRepository;
@@ -29,16 +30,22 @@ class CheckNotDeliveredOrdersCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(IOrderRegisterRepository $repository, ISendOrderRegisterNotification $notifier)
+    public function handle(IOrderRegisterRepository $repository)
     {
         $this->info('Checking not delivered orders...');
         $orders = $repository->getNotDeliveredOrders();
+        $this->checkOrdesStatus($orders);
+        $this->info('Done!');
+    }
+
+    private function checkOrdesStatus($orders)
+    {
         foreach ($orders as $order) {
+            $this->logAndOutput("Order {$order->code} not delivered");
             if ($order->fulled) {
-                $data = ['code' => $order->code];
-                $notifier($data);
+                $this->logAndOutput("Order {$order->code} already fulled");
+                OrderRegisterFulled::dispatch($order);
             }
         }
-        $this->info('Done!');
     }
 }

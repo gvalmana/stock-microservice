@@ -49,6 +49,9 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
 
     public function getNotDeliveredOrders()
     {
-        return $this->modelClass::where('delivered', false)->orderBy('created_at', 'desc')->take(10)->get();
+        return $this->modelClass::where('delivered', false)
+            ->orderBy('created_at', 'asc')
+            ->take(10)
+            ->get();
     }
 }
