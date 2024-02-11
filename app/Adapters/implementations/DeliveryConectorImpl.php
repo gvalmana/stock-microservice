@@ -16,9 +16,6 @@ final class DeliveryConectorImpl extends BaseAdapter implements DeliveryConector
     }
     public function notifyUpdate($data)
     {
-        // 'event'=> ['required', 'string',Rule::in(['update_cooking_status','failed_getting_stock'])],
-        // 'data'=>  ['required', 'array'],
-        // 'data.order_code'=> ['required', 'string'],
         $order_code = $data['code'];
         $payload = [
             'event' => 'update_cooking_status',

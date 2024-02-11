@@ -46,4 +46,9 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
         $order->delivery_at = Carbon::now();
         $order->save();
     }
+
+    public function getNotDeliveredOrders()
+    {
+        return $this->modelClass::where('delivered', false)->orderBy('created_at', 'desc')->take(10)->get();
+    }
 }
