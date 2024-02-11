@@ -10,7 +10,8 @@ class IngredientObserver
 {
     public function updated(Ingredient $model): void
     {
-        if ($model->order->fulled) {
+        Log::debug("El ingrediente ".$model->product->name." fue actualizado");
+        if ($model->fulled && $model->order->fulled) {
             OrderRegisterFulled::dispatch($model->order);
         }
     }

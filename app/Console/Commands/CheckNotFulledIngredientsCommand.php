@@ -11,6 +11,12 @@ use Illuminate\Console\Command;
 class CheckNotFulledIngredientsCommand extends Command
 {
     use LogAndOutputTrait;
+    private IBuyProduct $buyProduct;
+    public function __construct(IBuyProduct $buyProduct)
+    {
+        parent::__construct();
+        $this->buyProduct = $buyProduct;
+    }
     /**
      * The name and signature of the console command.
      *
@@ -28,13 +34,29 @@ class CheckNotFulledIngredientsCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(IIngredientsRepository $ingredientsRepository, IBuyProduct $buyProduct)
+    public function handle(IIngredientsRepository $ingredientsRepository)
     {
         $this->logAndOutput('Checking not fulled ingredients...');
         $ingredients = $ingredientsRepository->getNotFulledIngredients();
-        foreach ($ingredients as $ingredient) {
-            $buyProduct($ingredient);
-        }
+        $this->checkingIngredients($ingredients);
         $this->logAndOutput('Done!');
+    }
+
+    private function checkingIngredients($ingredients)
+    {
+        foreach ($ingredients as $ingredient) {
+            $product = $ingredient->product;
+            if ($product->available_quantity > $ingredient->quantity) {
+                $this->logAndOutput('Ingredient '.$ingredient->product->name.' available');
+                $ingredient->fulled = true;
+                $ingredient->save();
+                $product->available_quantity = $product->available_quantity - $ingredient->quantity;
+                $product->save();
+            } else {
+                $this->logAndOutput('Ingredient '.$ingredient->product->name.' not available.');
+                $this->logAndOutput('Buying product '.$ingredient->product->name);
+                $this->buyProduct->buyProduct($ingredient);
+            }
+        }
     }
 }

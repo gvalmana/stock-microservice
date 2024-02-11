@@ -24,6 +24,8 @@ use App\Models\Repositories\implementations\IgredientsRepository;
 use App\Models\Repositories\implementations\MarketplaceHistoryRepository;
 use App\Models\Repositories\IOrderRegisterRepository;
 use App\Models\Repositories\implementations\OrderRegisterRepository;
+use App\Models\Repositories\implementations\ProductsRepository;
+use App\Models\Repositories\IPRoductsRepository;
 use App\Observers\IngredientObserver;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
@@ -58,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         App::bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotificationHttp::class);
         App::bind(DeliveryConector::class, DeliveryConectorImpl::class);
         App::bind(IIngredientsRepository::class, IgredientsRepository::class);
+        App::bind(IPRoductsRepository::class, ProductsRepository::class);
     }
 
     /**

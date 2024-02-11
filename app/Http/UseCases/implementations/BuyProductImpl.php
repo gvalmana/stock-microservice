@@ -28,7 +28,7 @@ final class BuyProductImpl implements IBuyProduct
         ];
         $response = $this->marketConector->buyProduct($dataRequest);
         if (isset($response->quantitySold)) {
-            $buyData = MarketRequest::create([
+            MarketRequest::create([
                 'product_id' => $data->product->id,
                 'quantity_sold' => $response->quantitySold
             ]);

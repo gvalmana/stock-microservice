@@ -6,7 +6,7 @@ use App\Adapters\MarketConector;
 use App\Adapters\BaseAdapter;
 use Illuminate\Support\Facades\Log;
 
-final class AlegriaMarketConector extends BaseAdapter implements MarketConector
+class AlegriaMarketConector extends BaseAdapter implements MarketConector
 {
     private string $url;
     public function __construct(){
