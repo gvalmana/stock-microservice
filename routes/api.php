@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\MarkePlaceController;
+use App\Http\Controllers\ReciveOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('orders/')->middleware(['log.http.requests','check.authorization.header'])->group(function () {
+    Route::post('get-order', ReciveOrderController::class)->name('order.get');
 });
+
+Route::prefix('marketplace/')->group(function () {
+    Route::get('history', MarkePlaceController::class)->name('history.marketplace.index');
+});
+
+Route::get('/healtcheck', function() {
+    return response()->json([
+        'status' => true,
+        'message' => 'OK, I am healthy!'
+    ]);
+})->name('healtcheck');

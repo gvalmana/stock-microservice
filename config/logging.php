@@ -57,7 +57,12 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
-
+        'daily_custom_requests' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/custom_requests.log'),
+            'level' => 'info',
+            'days' => 7,
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
