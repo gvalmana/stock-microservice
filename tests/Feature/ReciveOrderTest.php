@@ -56,14 +56,14 @@ class ReciveOrderTest extends TestCase
         $code = $data['data']['order_code'];
         $this->assertEquals($code, $order->code);
         $this->assertDatabaseHas('order_registers', ['code' => $code]);
-        $firstDataProductItem = $data['products'][0];
+        $firstDataProductItem = $data['data']['products'][0];
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
             'order_register_id' => $order->id,
             'quantity' => $firstDataProductItem['quantity'],
             'product_id' => $firstDataProductModel->id
         ]);
-        $secondDataProductItem = $data['products'][1];
+        $secondDataProductItem = $data['data']['products'][1];
         $secondDataProductModel = Product::where('name', $secondDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
             'order_register_id' => $order->id,
@@ -99,7 +99,7 @@ class ReciveOrderTest extends TestCase
         $code = $data['data']['order_code'];
         $this->assertEquals($code, $order->code);
         $this->assertDatabaseHas('order_registers', ['code' => $code]);
-        $firstDataProductItem = $data['products'][0];
+        $firstDataProductItem = $data['data']['products'][0];
         $this->assertFalse($order->fulled);
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
