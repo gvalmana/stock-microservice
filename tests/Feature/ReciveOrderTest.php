@@ -25,7 +25,7 @@ class ReciveOrderTest extends TestCase
     }
     public function test_order_of_products_can_be_recived()
     {
-        $url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
+        $url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
         Http::fake(
             [
                  $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
@@ -75,6 +75,12 @@ class ReciveOrderTest extends TestCase
     public function test_order_of_products_is_paused()
     {
         $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
+        $url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
+        Http::fake(
+            [
+                 $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
+            ]
+        );
         $data = [
             'data' => [
                 'products' => [
