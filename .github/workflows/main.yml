@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: docker build
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:${{ github.sha }} .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:latest .
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -56,4 +56,4 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Docker Push
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:latest
