@@ -28,6 +28,7 @@ use App\Models\Repositories\implementations\ProductsRepository;
 use App\Models\Repositories\IPRoductsRepository;
 use App\Observers\IngredientObserver;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -45,7 +46,8 @@ class AppServiceProvider extends ServiceProvider
         });
         App::bind(ISendOrderRegisterNotification::class, function(){
             if (config("globals.comunication_protocol")=="kafka") {
-                return new SendOrderRegisterNotificationKafkaProducer();
+                Log::debug("SendOrderRegisterNotificationKafkaProducer");
+                return new SendOrderRegisterNotificationKafkaProducer(app(IOrderRegisterRepository::class));
             } elseif (config("globals.comunication_protocol")=="http") {
                 return new SendOrderRegisterNotificationHttp(app(DeliveryConector::class), app(IOrderRegisterRepository::class));
             } else {
@@ -57,7 +59,6 @@ class AppServiceProvider extends ServiceProvider
         App::bind(IOrderRegisterRepository::class, OrderRegisterRepository::class);
         App::bind(IMarketplaceHistoryRepository::class, MarketplaceHistoryRepository::class);
         App::bind(IMarketplaceHistory::class, MarketplaceHistoryImpl::class);
-        App::bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotificationHttp::class);
         App::bind(DeliveryConector::class, DeliveryConectorImpl::class);
         App::bind(IIngredientsRepository::class, IgredientsRepository::class);
         App::bind(IPRoductsRepository::class, ProductsRepository::class);
