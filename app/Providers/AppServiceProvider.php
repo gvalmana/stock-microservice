@@ -13,16 +13,22 @@ use App\Http\UseCases\implementations\BuyProductImpl;
 use App\Http\UseCases\implementations\MarketplaceHistoryImpl;
 use App\Http\UseCases\implementations\RecibeOrderImpl;
 use App\Http\UseCases\implementations\SendOrderRegisterNotificationHttp;
+use App\Http\UseCases\implementations\SendOrderRegisterNotificationKafkaProducer;
 use App\Http\UseCases\implementations\SendOrderRegisterNotificationTest;
 use App\Http\UseCases\IRecibeOrder;
 use App\Http\UseCases\ISendOrderRegisterNotification;
 use App\Models\Ingredient;
+use App\Models\Repositories\IIngredientsRepository;
 use App\Models\Repositories\IMarketplaceHistoryRepository;
+use App\Models\Repositories\implementations\IgredientsRepository;
 use App\Models\Repositories\implementations\MarketplaceHistoryRepository;
 use App\Models\Repositories\IOrderRegisterRepository;
 use App\Models\Repositories\implementations\OrderRegisterRepository;
+use App\Models\Repositories\implementations\ProductsRepository;
+use App\Models\Repositories\IPRoductsRepository;
 use App\Observers\IngredientObserver;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,13 +44,24 @@ class AppServiceProvider extends ServiceProvider
             }
             return new AlegriaMarketConector();
         });
+        App::bind(ISendOrderRegisterNotification::class, function(){
+            if (config("globals.comunication_protocol")=="kafka") {
+                Log::debug("SendOrderRegisterNotificationKafkaProducer");
+                return new SendOrderRegisterNotificationKafkaProducer(app(IOrderRegisterRepository::class));
+            } elseif (config("globals.comunication_protocol")=="http") {
+                return new SendOrderRegisterNotificationHttp(app(DeliveryConector::class), app(IOrderRegisterRepository::class));
+            } else {
+                return new SendOrderRegisterNotificationTest();
+            }
+        });
         App::singleton(IRecibeOrder::class, RecibeOrderImpl::class);
         App::bind(IBuyProduct::class, BuyProductImpl::class);
         App::bind(IOrderRegisterRepository::class, OrderRegisterRepository::class);
         App::bind(IMarketplaceHistoryRepository::class, MarketplaceHistoryRepository::class);
         App::bind(IMarketplaceHistory::class, MarketplaceHistoryImpl::class);
-        App::bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotificationHttp::class);
         App::bind(DeliveryConector::class, DeliveryConectorImpl::class);
+        App::bind(IIngredientsRepository::class, IgredientsRepository::class);
+        App::bind(IPRoductsRepository::class, ProductsRepository::class);
     }
 
     /**

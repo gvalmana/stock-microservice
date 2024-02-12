@@ -3,7 +3,7 @@ namespace App\Helpers;
 
 class FulledOrderMessage extends KafkaMessageStructure
 {
-    public const TOPIC = 'order-fulled';
+    public const TOPIC = 'stock-order-update';
 
     public function __construct(array $data)
     {

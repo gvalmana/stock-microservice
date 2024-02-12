@@ -3,19 +3,26 @@ namespace App\Http\UseCases\implementations;
 
 use App\Helpers\FulledOrderMessage;
 use App\Http\UseCases\ISendOrderRegisterNotification;
+use App\Models\Repositories\IOrderRegisterRepository;
+use Illuminate\Support\Facades\Log;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Message\Message;
 final class SendOrderRegisterNotificationKafkaProducer implements ISendOrderRegisterNotification
 {
     private $configuration;
-
+    private $orderRegisterRepository;
     public function __invoke(array $data)
     {
         return $this->notify($data);
     }
+    public function __construct(IOrderRegisterRepository $orderRegisterRepository)
+    {
+        $this->orderRegisterRepository = $orderRegisterRepository;
+    }
 
     public function notify($data)
     {
+        Log::debug("SendOrderRegisterNotificationKafkaProducer: {$data['code']}");
         $messageInfo = [
             'order_code' => $data['code'],
             'products' => $data['products']
@@ -27,5 +34,6 @@ final class SendOrderRegisterNotificationKafkaProducer implements ISendOrderRegi
         );
         $publisher = Kafka::publishOn($this->configuration->getTopic())->withMessage($message);
         $publisher->send();
+        $this->orderRegisterRepository->setDeliveredStatus($data['code']);
     }
 }

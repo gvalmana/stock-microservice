@@ -12,19 +12,18 @@ final class DeliveryConectorImpl extends BaseAdapter implements DeliveryConector
     public function __construct()
     {
         parent::__construct();
-        $this->url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
+        $this->url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
     }
     public function notifyUpdate($data)
     {
-        // 'event'=> ['required', 'string',Rule::in(['update_cooking_status','failed_getting_stock'])],
-        // 'data'=>  ['required', 'array'],
-        // 'data.order_code'=> ['required', 'string'],
         $order_code = $data['code'];
         $payload = [
             'event' => 'update_cooking_status',
             'data' => compact('order_code'),
         ];
+        Log::debug($this->url);
         Log::debug('Starting Order Register Fulled Notification: '. json_encode($data) . ' - '.get_called_class());
+        $this->addHeader('Authorization', 'Bearer ' . config("globals.security_key"));
         return $this->sendPostSecuredRequest($this->url, $payload);
     }
 }

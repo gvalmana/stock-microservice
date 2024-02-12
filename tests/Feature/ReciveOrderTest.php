@@ -25,7 +25,7 @@ class ReciveOrderTest extends TestCase
     }
     public function test_order_of_products_can_be_recived()
     {
-        $url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
+        $url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
         Http::fake(
             [
                  $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
@@ -33,17 +33,19 @@ class ReciveOrderTest extends TestCase
         );
         $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
         $data = [
-            'products' => [
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(1, 5)
+            'data' => [
+                'products' => [
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ],
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ]
                 ],
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(1, 5)
-                ]
-            ],
-            'order_code' => Str::uuid()->toString(),
+                'order_code' => Str::uuid()->toString(),
+            ]
         ];
         $response = $this->postJson(route('order.get'), $data,['Authorization' => 'Bearer ' . config('globals.security_key')]);
         $response->assertSuccessful();
@@ -51,15 +53,17 @@ class ReciveOrderTest extends TestCase
         $this->assertDatabaseCount('order_registers', 1);
         $this->assertDatabaseCount('ingredients', $order->ingredients->count());
         $this->assertEquals($order->products->count(), $order->ingredients->count());
-        $this->assertDatabaseHas('order_registers', ['code' => $data['order_code']]);
-        $firstDataProductItem = $data['products'][0];
+        $code = $data['data']['order_code'];
+        $this->assertEquals($code, $order->code);
+        $this->assertDatabaseHas('order_registers', ['code' => $code]);
+        $firstDataProductItem = $data['data']['products'][0];
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
             'order_register_id' => $order->id,
             'quantity' => $firstDataProductItem['quantity'],
             'product_id' => $firstDataProductModel->id
         ]);
-        $secondDataProductItem = $data['products'][1];
+        $secondDataProductItem = $data['data']['products'][1];
         $secondDataProductModel = Product::where('name', $secondDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
             'order_register_id' => $order->id,
@@ -71,18 +75,26 @@ class ReciveOrderTest extends TestCase
     public function test_order_of_products_is_paused()
     {
         $this->app->bind(MarketConector::class, AlegriaMarketConectorTest::class);
+        $url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
+        Http::fake(
+            [
+                 $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
+            ]
+        );
         $data = [
-            'products' => [
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(6, 10)
+            'data' => [
+                'products' => [
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ],
+                    [
+                        'name' => $this->faker->randomElement(Product::getNamesConstants()),
+                        'quantity' => random_int(1, 5)
+                    ]
                 ],
-                [
-                    'name' => $this->faker->randomElement(Product::getNamesConstants()),
-                    'quantity' => random_int(6, 10)
-                ]
-            ],
-            'order_code' => Str::uuid()->toString(),
+                'order_code' => Str::uuid()->toString(),
+            ]
         ];
         $response = $this->postJson(route('order.get'), $data,['Authorization' => 'Bearer ' . config('globals.security_key')]);
         $response->assertSuccessful();
@@ -90,9 +102,10 @@ class ReciveOrderTest extends TestCase
         $this->assertDatabaseCount('order_registers', 1);
         $this->assertDatabaseCount('ingredients', $order->ingredients->count());
         $this->assertEquals($order->products->count(), $order->ingredients->count());
-        $this->assertDatabaseHas('order_registers', ['code' => $data['order_code']]);
-        $firstDataProductItem = $data['products'][0];
-        $this->assertFalse($order->fulled);
+        $code = $data['data']['order_code'];
+        $this->assertEquals($code, $order->code);
+        $this->assertDatabaseHas('order_registers', ['code' => $code]);
+        $firstDataProductItem = $data['data']['products'][0];
         $firstDataProductModel = Product::where('name', $firstDataProductItem['name'])->firstOrFail();
         $this->assertDatabaseHas('ingredients', [
             'order_register_id' => $order->id,

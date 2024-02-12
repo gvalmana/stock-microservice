@@ -7,7 +7,7 @@ use App\Adapters\BaseAdapter;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
-final class AlegriaMarketConectorTest extends BaseAdapter implements MarketConector
+class AlegriaMarketConectorTest extends BaseAdapter implements MarketConector
 {
     private string $url;
     public function __construct(){
@@ -18,7 +18,9 @@ final class AlegriaMarketConectorTest extends BaseAdapter implements MarketConec
     {
         Log::debug("Comprando productos en le conector de testing ". get_called_class());
         $result = new stdClass();
-        $result->quantitySold = random_int(0, 5);
+        $quantitySold = random_int(0, 5);
+        Log::debug("Se vendieron ".$quantitySold." productos");
+        $result->quantitySold = $quantitySold;
         return $result;
     }
 }

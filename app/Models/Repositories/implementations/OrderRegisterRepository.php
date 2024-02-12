@@ -21,9 +21,10 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
     public function register(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $ingredients = $data['products'];
+            $ingredients = $data['data']['products'];
+            $code = $data['data']['order_code'];
             $order = $this->modelClass::create([
-                'code' => $data['order_code'],
+                'code' => $code,
             ]);
             foreach ($ingredients as $ingredient) {
                 $product = Product::where('name', $ingredient['name'])->first();
@@ -44,5 +45,13 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
         $order->delivered = true;
         $order->delivery_at = Carbon::now();
         $order->save();
+    }
+
+    public function getNotDeliveredOrders()
+    {
+        return $this->modelClass::where('delivered', false)
+            ->orderBy('created_at', 'asc')
+            ->take(10)
+            ->get();
     }
 }

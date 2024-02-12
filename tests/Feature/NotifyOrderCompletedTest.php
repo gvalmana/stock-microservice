@@ -40,7 +40,7 @@ class NotifyOrderCompletedTest extends TestCase
     public function test_event_notification_http_sent()
     {
         $this->app->bind(ISendOrderRegisterNotification::class, SendOrderRegisterNotificationHttp::class);
-        $url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
+        $url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
         Http::fake(
             [
                  $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
@@ -58,7 +58,7 @@ class NotifyOrderCompletedTest extends TestCase
 
     public function test_notificator_http_works()
     {
-        $url = config("globals.delivery_microservice.url")."/".config("globals.delivery_microservice.webhook_order_path");
+        $url = config("globals.delivery_microservice.url").config("globals.delivery_microservice.webhook_order_path");
         Http::fake(
             [
                  $url => Http::response(["success"=>true,"type"=>"success","message"=>"","data"=>[]], 200),
