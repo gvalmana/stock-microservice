@@ -45,11 +45,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php .
+        run: docker build -t micro-service-stock-php .
       - name: Setting Tags
         run: |
-          docker tag ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:${{ github.sha }}
-          docker tag ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:latest
+          docker tag micro-service-stock-php ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:${{ github.sha }}
+          docker tag micro-service-stock-php ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php:latest
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
