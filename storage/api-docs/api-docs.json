@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8001"
+            "url": "http://95.183.53.25:8001"
         }
     ],
     "paths": {

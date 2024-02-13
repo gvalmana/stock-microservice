@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Log;
 /**
 * @OA\Info(title="API Stock Microservice", version="1.0")
 *
-* @OA\Server(url="http://95.183.53.25:8001")
+* @OA\Server(url="http://95.183.53.25:8001", description="Production Server")
+* @OA\Server(url="http://localhost:8000", description="Local Server")
 */
 class ReciveOrderController extends Controller
 {
