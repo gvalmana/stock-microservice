@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-    php_micro_service_stock:
+    php-micro-service-stock:
         build:
             context: .
             dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
 
     nginx_micro_service_stock:
         depends_on:
-            - php_micro_service_stock
+            - php-micro-service-stock
         build:
             context: ./nginx
             dockerfile: Dockerfile
@@ -30,7 +30,7 @@ services:
 
     mysql_micro_service_stock:
         image: mariadb
-        container_name: db_micro_service_stock
+        container_name: db-micro-service-stock
         env_file:
             - .env
         environment:
