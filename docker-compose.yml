@@ -12,7 +12,7 @@ services:
             - ./:/var/www/html/
             - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
         networks:
-            - micro_service_aleira-micro-network
+            - micro-services-aleria-network
 
     supervisor:
         build:
@@ -36,7 +36,7 @@ services:
         ports:
             - "${APP_PORT}:80"
         networks:
-            - micro_service_aleira-micro-network
+            - micro-services-aleria-network
 
     mysql_micro_service_stock:
         image: mariadb
@@ -54,10 +54,10 @@ services:
         - mysql_micro_service_stock:/var/lib/mysql
         - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
         networks:
-        - micro_service_aleira-micro-network
+        - micro-services-aleria-network
 
 volumes:
     mysql_micro_service_stock:
 
 networks:
-    micro_service_aleira-micro-network:
+    micro-services-aleria-network:
