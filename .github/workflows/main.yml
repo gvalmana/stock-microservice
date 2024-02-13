@@ -38,6 +38,7 @@ jobs:
       run: ./vendor/bin/phpstan analyse app --error-format=github
 
   build-and-upload-docker-image:
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
