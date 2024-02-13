@@ -14,6 +14,16 @@ services:
         networks:
             - micro_service_aleira-micro-network
 
+    supervisor:
+        build:
+            context: ./supervisor
+            dockerfile: Dockerfile
+        container_name: stock-supervisor
+        volumes:
+        - ./:/var/www/html
+        networks:
+        - micro-services-aleria-network
+
     nginx_micro_service_stock:
         depends_on:
             - php-micro-service-stock
