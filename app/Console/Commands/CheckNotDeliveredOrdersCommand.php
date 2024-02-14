@@ -18,7 +18,7 @@ class CheckNotDeliveredOrdersCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:check-not-delivered-orders-command';
+    protected $signature = 'app:check-not-delivered-orders';
 
     /**
      * The console command description.

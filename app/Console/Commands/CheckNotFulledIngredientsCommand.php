@@ -22,7 +22,7 @@ class CheckNotFulledIngredientsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:check-not-fulled-ingredients-command';
+    protected $signature = 'app:check-not-fulled-ingredients';
 
     /**
      * The console command description.
