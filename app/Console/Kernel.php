@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:check-not-delivered-orders')->everyMinute();
         $schedule->command('app:check-not-fulled-ingredients')->everyMinute();
-        $schedule->command('app:check-producits-inventory')->everyFiveMinutes();
+        $schedule->command('app:check-producits-inventory')->everyThreeMinutes();
     }
 
     /**

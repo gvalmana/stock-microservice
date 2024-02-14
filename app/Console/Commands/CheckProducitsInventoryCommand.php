@@ -39,6 +39,6 @@ class CheckProducitsInventoryCommand extends Command
             $productsRepository->addStock($product, $data->quantitySold);
         });
         $this->logAndOutput('Finished!');
-        Artisan::call('app:check-not-fulled-ingredients-command');
+        Artisan::call('app:check-not-fulled-ingredients');
     }
 }
