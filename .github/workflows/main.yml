@@ -79,8 +79,8 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/micro-service-stock-php
             docker-compose up -d --build
             echo "Starting configuration"
-            docker exec ${{ vars.CONTAINER_NAME }} ./configuration.sh
-            docker exec ${{ vars.CONTAINER_NAME }} supervisorctl restart
+#           docker exec ${{ vars.CONTAINER_NAME }} ./configuration.sh
+#           docker exec ${{ vars.CONTAINER_NAME }} supervisorctl restart
       - name: Checking Service
         env:
           ENDPOINT: ${{ vars.API_HEALTCHECK_ENDPOINT }}
