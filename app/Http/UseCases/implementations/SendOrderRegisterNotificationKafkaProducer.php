@@ -22,7 +22,6 @@ final class SendOrderRegisterNotificationKafkaProducer implements ISendOrderRegi
 
     public function notify($data)
     {
-        Log::debug("SendOrderRegisterNotificationKafkaProducer: {$data['code']}");
         $messageInfo = [
             'order_code' => $data['code'],
             'products' => $data['products']

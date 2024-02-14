@@ -46,7 +46,6 @@ class AppServiceProvider extends ServiceProvider
         });
         App::bind(ISendOrderRegisterNotification::class, function(){
             if (config("globals.comunication_protocol")=="kafka") {
-                Log::debug("SendOrderRegisterNotificationKafkaProducer");
                 return new SendOrderRegisterNotificationKafkaProducer(app(IOrderRegisterRepository::class));
             } elseif (config("globals.comunication_protocol")=="http") {
                 return new SendOrderRegisterNotificationHttp(app(DeliveryConector::class), app(IOrderRegisterRepository::class));

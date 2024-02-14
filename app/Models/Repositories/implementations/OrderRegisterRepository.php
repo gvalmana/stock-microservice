@@ -28,7 +28,6 @@ class OrderRegisterRepository extends ListRepository implements IOrderRegisterRe
             ]);
             foreach ($ingredients as $ingredient) {
                 $product = Product::where('name', $ingredient['name'])->first();
-                Log::debug('Producto: ' . $product->name);
                 $ingredient = Ingredient::create([
                     'product_id' => $product->id,
                     'quantity' => $ingredient['quantity'],
