@@ -9,7 +9,7 @@ use App\Traits\LogAndOutputTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class CheckProducitsInventory extends Command
+class CheckProducitsInventoryCommand extends Command
 {
     use LogAndOutputTrait;
     /**
