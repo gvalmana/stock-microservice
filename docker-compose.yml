@@ -72,7 +72,7 @@ services:
         image: 'redis'
         container_name: redis-stock
         ports:
-        - 6379:6379
+        - 6380:6379
         volumes:
         - dev_redis:/data
         networks:
